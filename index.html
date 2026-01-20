@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern GPA Calculator | SGPA & CGPA</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="icon.png">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1><i class="fas fa-calculator"></i> GPA Calculator</h1>
+            <p>Calculate your Semester GPA (SGPA) and Cumulative GPA (CGPA) with support for grade replacements and repeated courses.</p>
+        </header>
+
+        <main>
+            <!-- Current Academic Status -->
+            <section class="card">
+                <h2><i class="fas fa-chart-line"></i> Current Academic Status</h2>
+                <div class="input-group">
+                    <div class="input-field">
+                        <label for="currentGPA"><i class="fas fa-graduation-cap"></i> Current CGPA</label>
+                        <input type="number" id="currentGPA" placeholder="e.g., 3.50" step="0.01" min="0" max="4">
+                    </div>
+                    <div class="input-field">
+                        <label for="currentCredits"><i class="fas fa-award"></i> Total Credits Earned</label>
+                        <input type="number" id="currentCredits" placeholder="Total credits completed" min="0" step="0.5">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Semester Courses -->
+            <section class="card">
+                <h2><i class="fas fa-book-open"></i> Semester Courses</h2>
+                <div class="table-container">
+                    <table id="courseTable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Course Credits</th>
+                                <th>Grade</th>
+                                <th class="repeat-cell">Repeat?</th>
+                                <th>Previous Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows dynamically added by script.js -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="buttons" style="margin-top: 24px;">
+                    <button class="btn-secondary" onclick="addRow()">
+                        <i class="fas fa-plus-circle"></i> Add Course
+                    </button>
+                    <button class="btn-danger" onclick="clearRows()">
+                        <i class="fas fa-trash-alt"></i> Clear All
+                    </button>
+                </div>
+            </section>
+
+            <!-- Action Buttons -->
+            <div class="buttons buttons-center" style="margin-bottom: 30px;">
+                <button class="btn-primary" onclick="calculate()">
+                    <i class="fas fa-calculator"></i> Calculate Results
+                </button>
+                <button class="btn-secondary" onclick="resetAll()">
+                    <i class="fas fa-redo-alt"></i> Reset All
+                </button>
+            </div>
+
+            <!-- Results Display -->
+            <section id="output" class="card results-card">
+                <h2><i class="fas fa-chart-pie"></i> Calculation Results</h2>
+                <div class="results-grid">
+                    <div class="result-item">
+                        <h3>Semester GPA</h3>
+                        <div class="result-value" id="sgpa">0.00</div>
+                        <div class="result-label">Performance this term</div>
+                    </div>
+                    <div class="result-item">
+                        <h3>Updated CGPA</h3>
+                        <div class="result-value" id="cgpa">0.00</div>
+                        <div class="result-label">New cumulative average</div>
+                    </div>
+                    <div class="result-item">
+                        <h3>Total Credits</h3>
+                        <div class="result-value" id="totalCredits">0</div>
+                        <div class="result-label">Total credits completed</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Modern GPA Calculator &copy; 2026</p>
+            <p>Designed for students to track academic progress accurately.</p>
+        </footer>
+    </div>
+
+    <!-- Custom JavaScript -->
+    <script src="script.js"></script>
+</body>
+</html>
