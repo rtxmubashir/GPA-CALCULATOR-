@@ -1,113 +1,213 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Modern GPA Calculator | SGPA & CGPA</title>
-    <!-- Google Fonts -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="description" content="Unofficial GPA Calculator for FAST-NU University Students. Calculate your Semester GPA and Cumulative GPA easily.">
+    <meta name="keywords" content="FAST, NUCES, GPA Calculator, SGPA, CGPA, University">
+    <meta name="theme-color" content="#4361ee">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="FAST-NU GPA Calculator">
+    <meta property="og:description" content="Calculate your Semester GPA and Cumulative GPA easily">
+    <meta property="og:type" content="website">
+    
+    <title>FAST-NU GPA Calculator | SGPA & CGPA</title>
+    
+    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    
     <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="icon.png">
+
 </head>
 <body>
-    <div class="container">
-        <!-- Header Section -->
+    <!-- Skip Link for Accessibility -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+        <div class="loader">
+            <div class="loader-ring"></div>
+            <span class="loader-text">Loading...</span>
+        </div>
+    </div>
+
+    <div class="container" id="main-content" role="main">
+        <!-- Header -->
         <header class="header">
-            <h1><i class="fas fa-calculator"></i> GPA Calculator</h1>
-            <p>Calculate your Semester GPA (SGPA) and Cumulative GPA (CGPA) with support for grade replacements and repeated courses.</p>
+            <div class="header-icon" aria-hidden="true">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <h1>FAST University GPA Calculator</h1>
+            <p>This is the <span class="badge">UNOFFICIAL</span> GPA Calculator For FAST University Students</p>
         </header>
 
-        <main>
-            <!-- Current Academic Status -->
-            <section class="card">
-                <h2><i class="fas fa-chart-line"></i> Current Academic Status</h2>
-                <div class="input-group">
-                    <div class="input-field">
-                        <label for="currentGPA"><i class="fas fa-graduation-cap"></i> Current CGPA</label>
-                        <input type="number" id="currentGPA" placeholder="e.g., 3.50" step="0.01" min="0" max="4">
-                    </div>
-                    <div class="input-field">
-                        <label for="currentCredits"><i class="fas fa-award"></i> Total Credits Earned</label>
-                        <input type="number" id="currentCredits" placeholder="Total credits completed" min="0" step="0.5">
-                    </div>
+        <!-- Current Status Card -->
+        <section class="card fade-in-up" aria-labelledby="status-heading">
+            <h2 id="status-heading">
+                <i class="fas fa-chart-line" aria-hidden="true"></i>
+                Current Academic Status
+            </h2>
+            <div class="input-group">
+                <div class="input-field">
+                    <label for="currentGPA">
+                        <i class="fas fa-star" aria-hidden="true"></i>
+                        CGPA
+                    </label>
+                    <input 
+                        type="number" 
+                        id="currentGPA" 
+                        placeholder="e.g., 3.50" 
+                        min="0" 
+                        max="4" 
+                        step="0.01"
+                        inputmode="decimal"
+                        autocomplete="off"
+                        aria-describedby="cgpa-help"
+                    >
+                    <small id="cgpa-help" class="input-help">Cumulative GPA (0.00 - 4.00)</small>
                 </div>
-            </section>
+                <div class="input-field">
+                    <label for="currentCredits">
+                        <i class="fas fa-book" aria-hidden="true"></i>
+                        Total Credits
+                    </label>
+                    <input 
+                        type="number" 
+                        id="currentCredits" 
+                        placeholder="e.g., 45" 
+                        min="0" 
+                        step="1"
+                        inputmode="numeric"
+                        autocomplete="off"
+                        aria-describedby="credits-help"
+                    >
+                    <small id="credits-help" class="input-help">Total attempted credits (excluding this semester)</small>
+                </div>
+            </div>
+        </section>
 
-            <!-- Semester Courses -->
-            <section class="card">
-                <h2><i class="fas fa-book-open"></i> Semester Courses</h2>
-                <div class="table-container">
-                    <table id="courseTable">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Course Credits</th>
-                                <th>Grade</th>
-                                <th class="repeat-cell">Repeat?</th>
-                                <th>Previous Grade</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- Rows dynamically added by script.js -->
-                        </tbody>
-                    </table>
-                </div>
-                <div class="buttons" style="margin-top: 24px;">
-                    <button class="btn-secondary" onclick="addRow()">
-                        <i class="fas fa-plus-circle"></i> Add Course
-                    </button>
-                    <button class="btn-danger" onclick="clearRows()">
-                        <i class="fas fa-trash-alt"></i> Clear All
-                    </button>
-                </div>
-            </section>
-
-            <!-- Action Buttons -->
-            <div class="buttons buttons-center" style="margin-bottom: 30px;">
-                <button class="btn-primary" onclick="calculate()">
-                    <i class="fas fa-calculator"></i> Calculate Results
-                </button>
-                <button class="btn-secondary" onclick="resetAll()">
-                    <i class="fas fa-redo-alt"></i> Reset All
-                </button>
+        <!-- Courses Card -->
+        <section class="card fade-in-up" aria-labelledby="courses-heading" style="animation-delay: 0.1s">
+            <h2 id="courses-heading">
+                <i class="fas fa-list-check" aria-hidden="true"></i>
+                Semester Courses
+            </h2>
+            
+            <div class="table-container" role="region" aria-label="Course table" tabindex="0">
+                <table id="courseTable" aria-describedby="table-description">
+                    <caption id="table-description" class="sr-only">
+                        Enter your courses with credits, grades, and mark if repeated
+                    </caption>
+                    <thead>
+                        <tr>
+                            <th scope="col" class="col-number">#</th>
+                            <th scope="col" class="col-credits">Credits</th>
+                            <th scope="col" class="col-grade">Grade</th>
+                            <th scope="col" class="col-repeat">Repeat?</th>
+                            <th scope="col" class="col-prev">Prev Grade</th>
+                            <th scope="col" class="col-action" aria-label="Actions"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows added dynamically -->
+                    </tbody>
+                </table>
             </div>
 
-            <!-- Results Display -->
-            <section id="output" class="card results-card">
-                <h2><i class="fas fa-chart-pie"></i> Calculation Results</h2>
-                <div class="results-grid">
-                    <div class="result-item">
-                        <h3>Semester GPA</h3>
-                        <div class="result-value" id="sgpa">0.00</div>
-                        <div class="result-label">Performance this term</div>
+            <div class="buttons">
+                <button type="button" class="btn-secondary" onclick="addRow()" aria-label="Add a new course row">
+                    <i class="fas fa-plus" aria-hidden="true"></i>
+                    <span>Add Course</span>
+                </button>
+                <button type="button" class="btn-danger" onclick="clearRows()" aria-label="Clear all course rows">
+                    <i class="fas fa-trash-alt" aria-hidden="true"></i>
+                    <span>Clear All</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons fade-in-up" style="animation-delay: 0.2s">
+            <button type="button" class="btn-primary btn-large" onclick="calculate()" id="calculateBtn">
+                <i class="fas fa-calculator" aria-hidden="true"></i>
+                <span>Calculate Results</span>
+            </button>
+            <button type="button" class="btn-secondary btn-large" onclick="resetAll()">
+                <i class="fas fa-rotate-left" aria-hidden="true"></i>
+                <span>Reset All</span>
+            </button>
+        </div>
+
+        <!-- Results Card -->
+        <section class="card results-card" id="output" aria-labelledby="results-heading" aria-live="polite">
+            <h2 id="results-heading">
+                <i class="fas fa-trophy" aria-hidden="true"></i>
+                Results
+            </h2>
+            <div class="results-grid">
+                <article class="result-item">
+                    <div class="result-icon" aria-hidden="true">
+                        <i class="fas fa-chart-simple"></i>
                     </div>
-                    <div class="result-item">
-                        <h3>Updated CGPA</h3>
-                        <div class="result-value" id="cgpa">0.00</div>
-                        <div class="result-label">New cumulative average</div>
+                    <h3 class="result-label">Semester GPA</h3>
+                    <p class="result-value" id="sgpa" aria-label="Semester GPA">0.00</p>
+                    <p class="result-description">Performance this semester</p>
+                </article>
+                <article class="result-item">
+                    <div class="result-icon" aria-hidden="true">
+                        <i class="fas fa-award"></i>
                     </div>
-                    <div class="result-item">
-                        <h3>Total Credits</h3>
-                        <div class="result-value" id="totalCredits">0</div>
-                        <div class="result-label">Total credits completed</div>
+                    <h3 class="result-label">Updated CGPA</h3>
+                    <p class="result-value" id="cgpa" aria-label="Cumulative GPA">0.00</p>
+                    <p class="result-description">Overall cumulative GPA</p>
+                </article>
+                <article class="result-item">
+                    <div class="result-icon" aria-hidden="true">
+                        <i class="fas fa-book-open"></i>
                     </div>
+                    <h3 class="result-label">Total Credits</h3>
+                    <p class="result-value" id="totalCredits" aria-label="Total credits">0</p>
+                    <p class="result-description">Credits completed</p>
+                </article>
+            </div>
+            
+            <!-- GPA Scale Reference -->
+            <div class="gpa-scale">
+                <h4>GPA Performance Scale</h4>
+                <div class="scale-bar">
+                    <div class="scale-segment danger" data-label="Poor (0-1)"></div>
+                    <div class="scale-segment warning" data-label="Fair (1-2)"></div>
+                    <div class="scale-segment good" data-label="Good (2-3)"></div>
+                    <div class="scale-segment excellent" data-label="Excellent (3-4)"></div>
                 </div>
-            </section>
-        </main>
+                <div class="scale-indicator" id="scaleIndicator"></div>
+            </div>
+        </section>
 
         <!-- Footer -->
         <footer class="footer">
-            <p>Modern GPA Calculator &copy; 2026</p>
-            <p>Designed for students to track academic progress accurately.</p>
+            <div class="footer-content">
+                <p>
+                    <i class="fas fa-university" aria-hidden="true"></i>
+                    FAST NU | GPA Calculator © <span id="currentYear">2026</span>
+                </p>
+                <p class="footer-subtitle">Specially Designed for FAST NUCES Students</p>
+            </div>
         </footer>
     </div>
 
-    <!-- Custom JavaScript -->
+    <!-- Toast Notification Container -->
+    <div class="toast-container" id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
+
     <script src="script.js"></script>
 </body>
 </html>
